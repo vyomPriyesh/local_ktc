@@ -4,7 +4,7 @@ import API from '../Apis/Apis';
 import * as Yup from "yup";
 import { showToast } from '../Utilis/showToast';
 import { UserState } from '../Context/Usercontext';
-import { apiFunction } from '../Apis/Apifunction';
+import { apiFunction } from '../Apis/apiFunction';
 
 
 const Login = () => {
