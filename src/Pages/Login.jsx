@@ -29,12 +29,13 @@ const Login = () => {
 
     const handleSubmit = async () => {
 
+        
         const payload = {
             mobile: mobile
         }
-
+        
         try {
-
+            
             await step1Schema.validate({ mobile }, { abortEarly: false });
             const response = await apiPost(AUTH?.sendOtp, payload);
 

@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { UserState } from '../Context/Usercontext';
 
 export const apiFunctions = () => {
