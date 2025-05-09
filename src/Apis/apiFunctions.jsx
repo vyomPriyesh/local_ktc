@@ -1,10 +1,6 @@
-// useApi.js
-import { useState } from 'react';
-import axios from 'axios';
-import { UserState } from '../Context/Usercontext';
+import React from 'react'
 
-export const apiFunction = () => {
-
+export const apiFunctions = () => {
     const { setLoading } = UserState();
 
     const apiGet = async (url, authToken) => {

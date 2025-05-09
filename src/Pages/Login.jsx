@@ -4,14 +4,14 @@ import API from '../Apis/Apis';
 import * as Yup from "yup";
 import { showToast } from '../Utilis/showToast';
 import { UserState } from '../Context/Usercontext';
-import { apiFunction } from '../Apis/apiFunction';
+import { apiFunctions } from '../Apis/apiFunctions';
 
 
 const Login = () => {
 
     const { AUTH } = API;
     const { setUser } = UserState();
-    const { apiPost } = apiFunction();
+    const { apiPost } = apiFunctions();
     
 
     const [mobile, setMobile] = useState(null);
