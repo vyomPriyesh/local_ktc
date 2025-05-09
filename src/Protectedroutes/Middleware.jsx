@@ -1,32 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import Loader from '../Utilis/Loader';
 import { UserState } from '../Context/Usercontext';
 
-const Middleware = ({ children }) => {
+const Middleware = () => {
+
   const { user, loading } = UserState();
-  const [isInitialized, setIsInitialized] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (!loading) {
-      setIsInitialized(true);
+    if (!user) return;
+
+    const role = Number(user.is_role);
+
+    const currentPath = location.pathname;
+
+    // Prevent redirect loop
+    if (role === 0 && !currentPath.startsWith('/admin')) {
+      navigate('/admin', { replace: true });
+    } else if (role === 1 && !currentPath.startsWith('/hr')) {
+      navigate('/hr', { replace: true });
     }
-  }, [loading]);
+    // Add more roles as needed
+  }, [user]);
 
-  if (!isInitialized) {
-    return <Loader />;
-  }
-
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
-
-
-  if (user?.is_admin === 1) {
-    return <Navigate to="/admin" replace />;
-  }
-
-  return children;
+  return null;
 };
 
 export default Middleware;

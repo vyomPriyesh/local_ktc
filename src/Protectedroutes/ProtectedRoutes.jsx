@@ -18,13 +18,14 @@ const ProtectedRoutes = ({ children, allowedRoles }) => {
         return <Loader />;
     }
 
-    if (!allowedRoles?.includes(user?.is_admin) || !user) {
+
+    // if (allowedRoles?.includes(user?.is_role) || user) {
+    //     return <Navigate to={user?.is_role == 0 ? '/admin' : user?.is_role == 1 && '/hr'} replace />
+    // } else
+     if (!allowedRoles?.includes(user?.is_role) || !user) {
         return <Navigate to="/login" replace />
     }
 
-    // if (!user) {
-        // return <Navigate to="/login" replace />;
-    // }
 
     return children;
 };

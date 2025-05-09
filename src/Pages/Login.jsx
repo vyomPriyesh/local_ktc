@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { showToast } from '../Utilis/showToast';
 import { UserState } from '../Context/Usercontext';
 import { apiFunctions } from '../Apis/apiFunctions';
+import { encryptDecrypt } from '../Apis/encryptDecrypt';
 
 
 const Login = () => {
@@ -12,7 +13,8 @@ const Login = () => {
     const { AUTH } = API;
     const { setUser } = UserState();
     const { apiPost } = apiFunctions();
-    
+    const { encryptData } = encryptDecrypt();
+
 
     const [mobile, setMobile] = useState(null);
     const [errors, setErrors] = useState({});
@@ -29,13 +31,13 @@ const Login = () => {
 
     const handleSubmit = async () => {
 
-        
+
         const payload = {
             mobile: mobile
         }
-        
+
         try {
-            
+
             await step1Schema.validate({ mobile }, { abortEarly: false });
             const response = await apiPost(AUTH?.sendOtp, payload);
 
@@ -90,20 +92,33 @@ const Login = () => {
 
         if (response.success) {
             setEdit(false)
-            setUser({
+            const data = {
                 ...response.data.user,
                 token: response.data.token
-
-            })
+            }
+            const encrypted = encryptData(data);
+            localStorage.setItem("data", encrypted);
         }
-
     }
+
+    //     case "hr":
+
+    //  is_role = 1,
+
+    //   case "security":
+
+    //   is_role = 2;
+
+    //     case "sells":
+
+    //       is_role = 3;
+
 
     return (
         <>
             <div className="h-dvh bg-slate-200 flex justify-center place-items-center px-10 md:px-0">
                 <div className="shadow-2xl p-5 bg-white rounded-lg xl:w-1/5 lg:w-1/3 md:w-1/2 w-full">
-                    <h1 className='text-[#e74c3c] font-semibold text-2xl'>Login</h1>
+                    <h1 className='text-[primary] font-semibold text-2xl'>Login</h1>
                     <div className="mt-5 w-full">
                         <Labelinput error={errors?.mobile} label='Mobile No.' type='mobile' value={mobile} setMobile={setMobile} />
                         {edit &&
@@ -120,9 +135,9 @@ const Login = () => {
                     )}
                     <div className="mt-5">
                         {edit ?
-                            <button disabled={otpData?.length !== 6} onClick={verifyOtp} className={`w-full ${otpData?.length == 6 ? 'bg-[#e74c3c]' : 'bg-[#eb7366]'}  text-white font-medium py-2 rounded-lg`}>Verify OTP</button>
+                            <button disabled={otpData?.length !== 6} onClick={verifyOtp} className={`w-full ${otpData?.length == 6 ? 'bg-[primary]' : 'bg-[#eb7366]'}  text-white font-medium py-2 rounded-lg`}>Verify OTP</button>
                             :
-                            <button onClick={handleSubmit} className='w-full bg-[#e74c3c] text-white font-medium py-2 rounded-lg'>Send OTP via WhatsApp</button>
+                            <button onClick={handleSubmit} className='w-full bg-[primary] text-white font-medium py-2 rounded-lg'>Send OTP via WhatsApp</button>
                         }
                     </div>
                 </div>

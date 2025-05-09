@@ -5,9 +5,10 @@ import './App.css'
 import { ToastContainer } from 'react-toastify'
 import { UserState } from './Context/Usercontext'
 import Loader from './Utilis/Loader'
-import Admin from './Panels/Admin'
 import Middleware from './Protectedroutes/Middleware'
 import ProtectedRoutes from './Protectedroutes/ProtectedRoutes'
+import Admin from './Role/Admin'
+import Hr from './Role/Hr'
 
 const App = () => {
 
@@ -16,15 +17,23 @@ const App = () => {
   return (
     <>
       {loading && <Loader />}
-      <Middleware />
+      {user && <Middleware />}
       <ToastContainer position="top-right" autoClose={3000} />
       <Routes>
         <Route path='/login' element={<Login />} />
         <Route
           path="/admin/*"
           element={
-            <ProtectedRoutes allowedRoles={[user?.is_admin]}>
+            <ProtectedRoutes allowedRoles={[0]}>
               <Admin />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/hr/*"
+          element={
+            <ProtectedRoutes allowedRoles={[1]}>
+              <Hr />
             </ProtectedRoutes>
           }
         />

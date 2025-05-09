@@ -2,6 +2,7 @@ import axios from 'axios';
 import { UserState } from '../Context/Usercontext';
 
 export const apiFunctions = () => {
+
     const { setLoading } = UserState();
 
     const apiGet = async (url, authToken) => {
@@ -36,5 +37,23 @@ export const apiFunctions = () => {
         }
     };
 
-    return { apiGet, apiPost };
+    const apiDelete = async (url, authToken) => {
+        setLoading(true);
+        try {
+            const response = await axios.delete(url, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`,
+                },
+            });
+            return response.data;
+        } catch (error) {
+            throw error;
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    
+
+    return { apiGet, apiPost, apiDelete};
 };
